@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../App";
 
 export const authSlice = createSlice({
     name: "auth",

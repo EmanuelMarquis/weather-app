@@ -28,24 +28,20 @@ function App() {
     if(authState === false) navigate("/login"); 
   });
 
-  /**const getWeatherForecast = () => new Promise((resolve, reject) => {
+  return (<>
+    <div className="text-red-800 font-bold">
+      <button onClick={async () => { await auth.signOut(); dispatch(logOut()); }}>Logout</button>
+    </div>
+  </>);
+}
+
+/**function getWeatherForecast() {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       navigator.geolocation.getCurrentPosition(async pos => resolve(await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&appid=${config.weatherApiKey}`)),
       error => reject(error)
     );}, 2000);
-  });**/
-
-  const signOut = async () => {
-    await auth.signOut();
-
-    dispatch(logOut());
-  }
-
-  return (<>
-    <div className="text-red-800 font-bold">
-      <button onClick={signOut}>Logout</button>
-    </div>
-  </>);
-}
+  });
+} **/
 
 export default App;

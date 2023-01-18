@@ -10,12 +10,35 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducers from './reducers/authReducers';
 import ErrorPage from './routes/errorPage';
 import LoginPage from './routes/loginPage';
+import { 
+  persistStore, 
+  persistReducer, 
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { PersistGate } from 'redux-persist/integration/react';
+
+const persistConfig = {
+  key: 'root',
+  storage
+};
 
 const store = configureStore({
   reducer: {
-    auth: authReducers
-  }
+    auth: persistReducer(persistConfig, authReducers)
+  },
+  middleware: getDefaultMiddleware => getDefaultMiddleware({
+    serializableCheck: {
+      ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+    }
+  })
 });
+
+const persistor = persistStore(store);
 
 const router = createBrowserRouter([
   {
@@ -32,7 +55,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <RouterProvider router={router}/>
+    <PersistGate loading={null} persistor={persistor}>
+      <RouterProvider router={router}/>
+    </PersistGate>
   </Provider>
 );
 

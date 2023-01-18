@@ -10,26 +10,35 @@ export default function LoginPage() {
     const auth = getAuth();
 
     useEffect(() => { 
-        async function redirectOnSuccess() {
-            if(!(await getRedirectResult(auth))) return;
-                
-            navigate("/");
-            dispatch(logIn());
-        }
-        redirectOnSuccess();
+        redirectOnSuccess(auth, navigate, dispatch);
     });
 
-    const signInWithGoogle = async () => {
-        const provider = new GoogleAuthProvider();
-        provider.addScope("email");
-        provider.addScope("profile");
-
-        await signInWithRedirect(auth, provider);
-    }
-
     return (
-        <div>
-            <button className="bg-yellow-400 text-stone-900" onClick={signInWithGoogle}>Login</button>
+        <div className="container flex min-h-screen justify-center items-center">
+            <LoginButton authInstance={auth}/>
         </div> 
     ); 
+}
+
+function LoginButton(props) {
+    return <button 
+        className="bg-yellow-400 hover:bg-yellow-500 outline outline-1 rounded-md px-2 py-1 text-stone-900 " 
+        onClick={() => signInWithGoogle(props.authInstance)}
+    >Continue with Google</button>
+}
+
+async function signInWithGoogle(auth) {
+    const provider = new GoogleAuthProvider();
+    provider.addScope("email");
+    provider.addScope("profile");
+
+    await signInWithRedirect(auth, provider);
+}
+
+async function redirectOnSuccess(auth, navTo, action) {
+
+    if(!(await getRedirectResult(auth))) return;
+        
+    navTo("/");
+    action(logIn());
 }
