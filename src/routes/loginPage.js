@@ -13,11 +13,9 @@ export default function LoginPage() {
         redirectOnSuccess(auth, navigate, dispatch);
     });
 
-    return (
-        <div className="container flex min-h-screen justify-center items-center">
-            <LoginButton authInstance={auth}/>
-        </div> 
-    ); 
+    return (<div className="container flex min-h-screen justify-center items-center">
+        <LoginButton authInstance={auth}/>
+    </div>); 
 }
 
 function LoginButton(props) {
@@ -27,12 +25,12 @@ function LoginButton(props) {
     >Continue with Google</button>
 }
 
-async function signInWithGoogle(auth) {
+async function signInWithGoogle(authInstance) {
     const provider = new GoogleAuthProvider();
     provider.addScope("email");
     provider.addScope("profile");
 
-    await signInWithRedirect(auth, provider);
+    await signInWithRedirect(authInstance, provider);
 }
 
 async function redirectOnSuccess(auth, navTo, action) {
