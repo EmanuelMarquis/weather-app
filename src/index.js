@@ -42,12 +42,12 @@ const persistor = persistStore(store);
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "https://emanuelmarquis.github.io/weather-app/",
     element: <App/>,
     errorElement: <ErrorPage/>
   },
   {
-    path:"/login",
+    path:"https://emanuelmarquis.github.io/weather-app/login",
     element: <LoginPage/>
   }
 ]);
